@@ -53,17 +53,13 @@ public class Day1 {
     };
 
     private Integer extractExtendedNumbers(String line) {
-
-        List<Integer> foundSubstrings = new ArrayList<>();
+        List<Integer> foundNumbers = new ArrayList<>();
         for (int i = 0; i < line.length(); i++) {
-            String currentSubstring = line.substring(i, line.length());
-            String foundBeginning = beginnings.keySet().stream().filter(b -> currentSubstring.startsWith(b)).findFirst()
-                    .orElse(null);
-            if (foundBeginning != null) {
-                foundSubstrings.add(beginnings.get(foundBeginning));
-            }
+            String currentSubstring = line.substring(i);
+            beginnings.keySet().stream().filter(b -> currentSubstring.startsWith(b)).findFirst()
+                    .map(found -> foundNumbers.add(beginnings.get(found)));
         }
-        return 10 * foundSubstrings.get(0) + foundSubstrings.get(foundSubstrings.size() - 1);
+        return 10 * foundNumbers.get(0) + foundNumbers.get(foundNumbers.size() - 1);
 
     }
 
