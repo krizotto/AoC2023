@@ -1,0 +1,9 @@
+package com.krizotto;
+
+import java.io.IOException;
+
+public class AoC2023 {
+    public static void main(String[] args) throws IOException {
+       new Day1().solve();
+    }
+}
