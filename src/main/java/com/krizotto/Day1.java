@@ -98,7 +98,7 @@ public class Day1 {
         System.out.printf("Part A (test): %d\n", solveATest());
         System.out.printf("Part A: %d\n", solveA());
         System.out.printf("Part B (test): %d\n", solveBTest());
-        System.out.printf("Part B: %d\n", solveB());
+        System.out.printf("Part B: %d\n\n", solveB());
     }
 
 }
