@@ -2,5 +2,5 @@ target/
 .vscode/
 .DS_Store
 src/.DS_Store
-.fleet
-.idea
+.fleet/
+.idea/
