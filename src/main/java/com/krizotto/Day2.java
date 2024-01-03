@@ -1,27 +1,27 @@
 package com.krizotto;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Stream;
-
-import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Stream;
 
 public class Day2 {
     public void solve() throws IOException {
         File testFile = new File("src/resources/day2_test.txt");
         File input = new File("src/resources/day2.txt");
         System.out.println("Day 2");
-        System.out.printf("Part A (test): %d\n", solveA(testFile));
-        System.out.printf("Part A: %d\n", solveA(input));
-        System.out.printf("Part B (test): %d\n", solveB(testFile));
-        System.out.printf("Part B: %d\n\n", solveB(input));
+        System.out.printf("Part A (test): %d%n", solveA(testFile));
+        System.out.printf("Part A: %d%n", solveA(input));
+        System.out.printf("Part B (test): %d%n", solveB(testFile));
+        System.out.printf("Part B: %d%n%n", solveB(input));
     }
 
     private Integer solveA(File file) throws IOException {
@@ -34,7 +34,7 @@ public class Day2 {
     }
 
     private Stream<Game> extractGames(File file) throws IOException {
-        return Files.readLines(file, Charsets.UTF_8).stream().map(this::createGame);
+        return Files.readLines(file, StandardCharsets.UTF_8).stream().map(this::createGame);
     }
 
     private Game createGame(String line) {
@@ -62,7 +62,7 @@ public class Day2 {
     }
 
     @Data
-    private class Game {
+    private static class Game {
 
         private Integer gameId;
         private List<Deal> deals = new ArrayList<>();
@@ -89,7 +89,7 @@ public class Day2 {
     }
 
     @Data
-    private class Deal {
+    private static class Deal {
         private List<DealItem> dealItems = new ArrayList<>();
 
         private boolean isDealProper() {
@@ -98,7 +98,7 @@ public class Day2 {
     }
 
     @Data
-    private class DealItem {
+    private static class DealItem {
         private Integer amount;
         private Color color;
 

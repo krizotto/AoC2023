@@ -1,14 +1,14 @@
 package com.krizotto;
 
+import com.google.common.io.Files;
+
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.google.common.base.Charsets;
-import com.google.common.io.Files;
 
 public class Day1 {
     private Integer extractNumbersFromString(String line) {
@@ -19,7 +19,7 @@ public class Day1 {
                 sb.append(charAt);
             }
         }
-        if (sb.length() > 0) {
+        if (!sb.isEmpty()) {
             finalNumber.append(sb.charAt(0));
             finalNumber.append(sb.charAt(sb.length() - 1));
             return Integer.parseInt(finalNumber.toString());
@@ -27,7 +27,7 @@ public class Day1 {
             throw new IllegalStateException();
     }
 
-    private Map<String, Integer> beginnings = new HashMap<String, Integer>() {
+    private final Map<String, Integer> beginnings = new HashMap<>() {
         {
             put("0", 0);
             put("1", 1);
@@ -56,20 +56,20 @@ public class Day1 {
         List<Integer> foundNumbers = new ArrayList<>();
         for (int i = 0; i < line.length(); i++) {
             String currentSubstring = line.substring(i);
-            beginnings.keySet().stream().filter(b -> currentSubstring.startsWith(b)).findFirst()
-                    .map(found -> foundNumbers.add(beginnings.get(found)));
+            beginnings.keySet().stream().filter(currentSubstring::startsWith).findFirst()
+                    .ifPresent(found -> foundNumbers.add(beginnings.get(found)));
         }
-        return 10 * foundNumbers.get(0) + foundNumbers.get(foundNumbers.size() - 1);
+        return 10 * foundNumbers.getFirst() + foundNumbers.getLast();
 
     }
 
     private Integer solveA(File file) throws IOException {
-        List<String> lines = Files.readLines(file, Charsets.UTF_8);
+        List<String> lines = Files.readLines(file, StandardCharsets.UTF_8);
         return lines.stream().map(this::extractNumbersFromString).reduce(0, Integer::sum);
     }
 
     private Integer solveB(File file) throws IOException {
-        List<String> lines = Files.readLines(file, Charsets.UTF_8);
+        List<String> lines = Files.readLines(file, StandardCharsets.UTF_8);
         return lines.stream().map(this::extractExtendedNumbers).reduce(0, Integer::sum);
     }
 
@@ -95,10 +95,10 @@ public class Day1 {
 
     public void solve() throws IOException {
         System.out.println("Day 1");
-        System.out.printf("Part A (test): %d\n", solveATest());
-        System.out.printf("Part A: %d\n", solveA());
-        System.out.printf("Part B (test): %d\n", solveBTest());
-        System.out.printf("Part B: %d\n\n", solveB());
+        System.out.printf("Part A (test): %d%n", solveATest());
+        System.out.printf("Part A: %d%n", solveA());
+        System.out.printf("Part B (test): %d%n", solveBTest());
+        System.out.printf("Part B: %d%n%n", solveB());
     }
 
 }

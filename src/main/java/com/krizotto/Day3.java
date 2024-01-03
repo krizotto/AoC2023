@@ -9,21 +9,16 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Day3 {
     private static final int ARRAY_SIZE = 140;
 
     private static String[][] extractArrayFromFile(File file) throws IOException {
-        int row = 0, column = 0;
+        int row = 0;
+        int column = 0;
         String[][] returnArray = new String[ARRAY_SIZE][ARRAY_SIZE];
         for (String readLine : Files.readLines(file, Charset.defaultCharset())) {
             for (char c : readLine.toCharArray()) {
@@ -39,8 +34,9 @@ public class Day3 {
     public void solve() throws IOException {
         List<Integer> results = solve(new File("src/resources/day3.txt"));
         System.out.println("Day 3");
-        System.out.printf("Part A: %d\n", results.get(0));
-        System.out.printf("Part B: %d\n", results.get(1));
+        System.out.printf("Part A: %d%n", results.get(0));
+        System.out.printf("Part B: %d%n", results.get(1));
+        System.out.printf("%n");
     }
 
     private List<Integer> solve(File file) throws IOException {
@@ -111,7 +107,7 @@ public class Day3 {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    static class Point {
+    private static class Point {
         int x;
         int y;
     }
