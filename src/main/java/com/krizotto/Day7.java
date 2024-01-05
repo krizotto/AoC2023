@@ -13,7 +13,6 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-
 public class Day7 {
 
     private static final List<Character> NORMAL_CARD_VALUES = List.of('2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A');

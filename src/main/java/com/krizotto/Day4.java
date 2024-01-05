@@ -1,13 +1,10 @@
 package com.krizotto;
 
-import com.google.common.io.Files;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
-
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,12 +13,18 @@ import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.collections4.CollectionUtils;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 public class Day4 {
+
     public void solve() throws IOException {
-        File testFile = new File("src/resources/day4_test.txt");
-        File input = new File("src/resources/day4.txt");
-        List<Card> testCards = Files.readLines(testFile, StandardCharsets.UTF_8).stream().map(Card::extract).toList();
-        List<Card> inputCards = Files.readLines(input, StandardCharsets.UTF_8).stream().map(Card::extract).toList();
+        Path test = Paths.get("src/resources/day4_test.txt");
+        Path input = Paths.get("src/resources/day4.txt");
+        List<Card> testCards = Files.readAllLines(test, StandardCharsets.UTF_8).stream().map(Card::extract).toList();
+        List<Card> inputCards = Files.readAllLines(input, StandardCharsets.UTF_8).stream().map(Card::extract).toList();
         System.out.println("Day 4");
         System.out.printf("Part A (test): %d%n", solveA(testCards));
         System.out.printf("Part A: %d%n", solveA(inputCards));
@@ -51,6 +54,7 @@ public class Day4 {
     @Data
     @NoArgsConstructor
     private static class Card {
+
         private Integer number;
         private List<Integer> winningNumbers = new ArrayList<>();
         private List<Integer> myNumbers = new ArrayList<>();

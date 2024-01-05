@@ -1,16 +1,18 @@
 package com.krizotto;
 
-import com.google.common.io.Files;
-
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 public class Day1 {
+
     private Integer extractNumbersFromString(String line) {
         StringBuilder sb = new StringBuilder();
         StringBuilder finalNumber = new StringBuilder();
@@ -23,11 +25,13 @@ public class Day1 {
             finalNumber.append(sb.charAt(0));
             finalNumber.append(sb.charAt(sb.length() - 1));
             return Integer.parseInt(finalNumber.toString());
-        } else
+        } else {
             throw new IllegalStateException();
+        }
     }
 
     private final Map<String, Integer> beginnings = new HashMap<>() {
+
         {
             put("0", 0);
             put("1", 1);
@@ -56,49 +60,30 @@ public class Day1 {
         List<Integer> foundNumbers = new ArrayList<>();
         for (int i = 0; i < line.length(); i++) {
             String currentSubstring = line.substring(i);
-            beginnings.keySet().stream().filter(currentSubstring::startsWith).findFirst()
-                    .ifPresent(found -> foundNumbers.add(beginnings.get(found)));
+            beginnings.keySet().stream().filter(currentSubstring::startsWith).findFirst().ifPresent(found -> foundNumbers.add(beginnings.get(found)));
         }
         return 10 * foundNumbers.getFirst() + foundNumbers.getLast();
 
     }
 
-    private Integer solveA(File file) throws IOException {
-        List<String> lines = Files.readLines(file, StandardCharsets.UTF_8);
+    private Integer solveA(Path path) throws IOException {
+        List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
         return lines.stream().map(this::extractNumbersFromString).reduce(0, Integer::sum);
     }
 
-    private Integer solveB(File file) throws IOException {
-        List<String> lines = Files.readLines(file, StandardCharsets.UTF_8);
+    private Integer solveB(Path path) throws IOException {
+        List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
         return lines.stream().map(this::extractExtendedNumbers).reduce(0, Integer::sum);
     }
 
-    private Integer solveATest() throws IOException {
-        File part1Test = new File("src/resources/day1_testA.txt");
-        return solveA(part1Test);
-    }
-
-    private Integer solveA() throws IOException {
-        File part1 = new File("src/resources/day1.txt");
-        return solveA(part1);
-    }
-
-    private Integer solveBTest() throws IOException {
-        File part2Test = new File("src/resources/day1_testB.txt");
-        return solveB(part2Test);
-    }
-
-    private Integer solveB() throws IOException {
-        File part2 = new File("src/resources/day1.txt");
-        return solveB(part2);
-    }
-
     public void solve() throws IOException {
+        Path test = Paths.get("src/resources/day1_testA.txt");
+        Path input = Paths.get("src/resources/day1.txt");
         System.out.println("Day 1");
-        System.out.printf("Part A (test): %d%n", solveATest());
-        System.out.printf("Part A: %d%n", solveA());
-        System.out.printf("Part B (test): %d%n", solveBTest());
-        System.out.printf("Part B: %d%n%n", solveB());
+        System.out.printf("Part A (test): %d%n", solveA(test));
+        System.out.printf("Part A: %d%n", solveA(input));
+        System.out.printf("Part B (test): %d%n", solveB(test));
+        System.out.printf("Part B: %d%n%n", solveB(input));
     }
 
 }

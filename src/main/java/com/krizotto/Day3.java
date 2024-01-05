@@ -1,26 +1,35 @@
 package com.krizotto;
 
-import com.google.common.io.Files;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import org.apache.commons.lang3.StringUtils;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.*;
-import java.util.Map.Entry;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Day3 {
+
     private static final int ARRAY_SIZE = 140;
 
-    private static String[][] extractArrayFromFile(File file) throws IOException {
+    private static String[][] extractArrayFromFile(Path path) throws IOException {
         int row = 0;
         int column = 0;
         String[][] returnArray = new String[ARRAY_SIZE][ARRAY_SIZE];
-        for (String readLine : Files.readLines(file, Charset.defaultCharset())) {
+        for (String readLine : Files.readAllLines(path, Charset.defaultCharset())) {
             for (char c : readLine.toCharArray()) {
                 returnArray[row][column] = String.valueOf(c);
                 column++;
@@ -32,18 +41,21 @@ public class Day3 {
     }
 
     public void solve() throws IOException {
-        List<Integer> results = solve(new File("src/resources/day3.txt"));
+        List<Integer> results = solve(Paths.get("src/resources/day3_test.txt"));
         System.out.println("Day 3");
+        System.out.printf("Part A (test): %d%n", results.get(0));
+        System.out.printf("Part B (test): %d%n", results.get(1));
+        results = solve(Paths.get("src/resources/day3.txt"));
         System.out.printf("Part A: %d%n", results.get(0));
         System.out.printf("Part B: %d%n", results.get(1));
         System.out.printf("%n");
     }
 
-    private List<Integer> solve(File file) throws IOException {
+    private List<Integer> solve(Path path) throws IOException {
         Map<Point, Set<Integer>> gears = new HashMap<>();
         List<Integer> integersToAdd = new ArrayList<>();
         Set<Point> pointsToCheck = new HashSet<>();
-        String[][] array = extractArrayFromFile(file);
+        String[][] array = extractArrayFromFile(path);
         StringBuilder sb = new StringBuilder();
         for (int row = 0; row < ARRAY_SIZE; row++) {
             for (int col = 0; col < ARRAY_SIZE; col++) {
@@ -65,8 +77,11 @@ public class Day3 {
                 }
             }
         }
-        return List.of(integersToAdd.stream().reduce(0, Integer::sum), gears.values().stream().filter(integers -> integers.size() == 2)
-                .map(integers -> integers.stream().reduce(1, (a, b) -> a * b)).reduce(0, Integer::sum));
+        return List.of(integersToAdd.stream().reduce(0, Integer::sum), gears.values()
+                                                                            .stream()
+                                                                            .filter(integers -> integers.size() == 2)
+                                                                            .map(integers -> integers.stream().reduce(1, (a, b) -> a * b))
+                                                                            .reduce(0, Integer::sum));
     }
 
     private List<Point> getPointsAround(int row, int col) {
@@ -108,6 +123,7 @@ public class Day3 {
     @AllArgsConstructor
     @NoArgsConstructor
     private static class Point {
+
         int x;
         int y;
     }

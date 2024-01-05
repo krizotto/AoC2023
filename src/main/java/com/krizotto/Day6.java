@@ -1,7 +1,5 @@
 package com.krizotto;
 
-import com.google.common.io.Files;
-
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -13,7 +11,10 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import com.google.common.io.Files;
+
 public class Day6 {
+
     public void solve() throws IOException {
         File test = new File("src/resources/day6_test.txt");
         File input = new File("src/resources/day6.txt");
