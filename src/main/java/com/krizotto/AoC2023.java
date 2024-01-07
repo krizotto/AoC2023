@@ -12,5 +12,6 @@ public class AoC2023 {
         new Day5().solve();
         new Day6().solve();
         new Day7().solve();
+        new Day8().solve();
     }
 }
