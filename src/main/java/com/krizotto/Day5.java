@@ -64,9 +64,9 @@ public class Day5 {
     public void solve() throws IOException {
         Path test = Paths.get("src/resources/day5_test.txt");
         Path input = Paths.get("src/resources/day5.txt");
-        System.out.println(solveA(test));
-        System.out.println(solveA(input));
-        System.out.println(solveB(test)); // wrong answer
+        System.out.printf("Part A (test): %d%n", solveA(test));
+        System.out.printf("Part A: %d%n", solveA(input));
+        System.out.printf("Part B (test): %d%n - produces wrong answer%n%n", solveB(test));
 
     }
 
@@ -122,6 +122,5 @@ public class Day5 {
         }
         return bigIntegers;
     }
-
 
 }

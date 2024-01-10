@@ -43,7 +43,7 @@ public class Day7 {
         System.out.printf("Part A (test): %d%n", solveA(test));
         System.out.printf("Part A: %d%n", solveA(input));
         System.out.printf("Part B (test): %d%n", solveB(test));
-        System.out.printf("Part B: %d%n", solveB(input));
+        System.out.printf("Part B: %d%n%n", solveB(input));
     }
 
     private Integer solveA(Path path) throws IOException {

@@ -47,8 +47,7 @@ public class Day3 {
         System.out.printf("Part B (test): %d%n", results.get(1));
         results = solve(Paths.get("src/resources/day3.txt"));
         System.out.printf("Part A: %d%n", results.get(0));
-        System.out.printf("Part B: %d%n", results.get(1));
-        System.out.printf("%n");
+        System.out.printf("Part B: %d%n%n", results.get(1));
     }
 
     private List<Integer> solve(Path path) throws IOException {

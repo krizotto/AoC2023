@@ -29,7 +29,7 @@ public class Day4 {
         System.out.printf("Part A (test): %d%n", solveA(testCards));
         System.out.printf("Part A: %d%n", solveA(inputCards));
         System.out.printf("Part B (test): %d%n", solveB(testCards));
-        System.out.printf("Part B : %d%n", solveB(inputCards));
+        System.out.printf("Part B : %d%n%n", solveB(inputCards));
 
     }
 

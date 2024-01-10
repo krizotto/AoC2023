@@ -14,12 +14,11 @@ import java.util.regex.Pattern;
 public class Day8 {
 
     public void solve() throws IOException {
-        Path test = Paths.get("src/resources/day8_test.txt");
         Path input = Paths.get("src/resources/day8.txt");
 
         System.out.println("Day 8");
         System.out.printf("Part A: %d%n", solveA(input));
-        System.out.printf("Part B: %d%n", solveB(input));
+        System.out.printf("Part B: %d%n%n", solveB(input));
     }
 
     private Integer solveA(Path path) throws IOException {
