@@ -26,13 +26,10 @@ public class Day11 {
 
     private static Set<Point> findGalaxies(List<List<Character>> space) {
         Set<Point> galaxies = new HashSet<>();
-        for (int y = 0; y < space.size(); y++) {
-            for (int x = 0; x < space.get(y).size(); x++) {
-                if (space.get(y).get(x) == '#') {
-                    galaxies.add(new Point(x, y));
-                }
-            }
-        }
+        IntStream.range(0, space.size())
+                 .forEach(y -> IntStream.range(0, space.getFirst().size())
+                                        .filter(x -> space.get(y).get(x) == '#')
+                                        .forEachOrdered(x -> galaxies.add(new Point(x, y))));
         return galaxies;
     }
 
@@ -51,11 +48,12 @@ public class Day11 {
         Set<Point> galaxies = findGalaxies(space);
         List<Integer> blankRows = IntStream.range(0, space.size()).filter(i -> space.get(i).stream().allMatch(character -> character == '.')).boxed().toList();
         List<Integer> blankCols = IntStream.range(0, space.getFirst().size()).filter(i -> space.stream().allMatch(list -> list.get(i) == '.')).boxed().toList();
-        long sum = 0;
-        for (Point galaxy : galaxies) {
-            sum += galaxies.stream().filter(g -> !g.equals(galaxy)).map(g -> countDistance(galaxy, g, blankRows, blankCols, times)).reduce(0L, Long::sum);
-        }
-        return sum / 2;
+        return galaxies.stream()
+                       .mapToLong(galaxy -> galaxies.stream()
+                                                    .filter(g -> !g.equals(galaxy))
+                                                    .mapToLong(g -> countDistance(galaxy, g, blankRows, blankCols, times))
+                                                    .sum())
+                       .sum() / 2;
     }
 
     private long countDistance(Point p1, Point p2, List<Integer> blankRows, List<Integer> blankCols, long times) {
