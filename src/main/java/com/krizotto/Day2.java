@@ -86,6 +86,7 @@ public class Day2 {
     private static class Deal {
 
         private List<DealItem> dealItems = new ArrayList<>();
+
         private boolean isDealProper() {
             return dealItems.stream().allMatch(DealItem::isItemProper);
         }

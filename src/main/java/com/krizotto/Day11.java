@@ -36,7 +36,7 @@ public class Day11 {
     public void solve() throws IOException {
         Path test = Paths.get("src/resources/day11_test.txt");
         Path input = Paths.get("src/resources/day11.txt");
-        System.out.println("Day 10");
+        System.out.println("Day 11");
         System.out.printf("Part A (test): %d%n", solve(test, 2));
         System.out.printf("Part A: %d%n", solve(input, 2));
         System.out.printf("Part B (test): %d%n", solve(test, 100));

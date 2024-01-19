@@ -4,12 +4,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
-
-import org.apache.commons.collections4.CollectionUtils;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -23,7 +20,7 @@ public class Day10 {
         System.out.printf("Part A (test): %d%n", solveA(test, Direction.S));
         System.out.printf("Part A: %d%n", solveA(input, Direction.E));
         System.out.printf("Part B (test): %d%n", solveB(test, Direction.S));
-        System.out.printf("Part B (test): %d%n%n", solveB(input, Direction.E));
+        System.out.printf("Part B: %d%n%n", solveB(input, Direction.E));
     }
 
     private long solveA(Path path, Direction direction) throws IOException {
@@ -35,9 +32,7 @@ public class Day10 {
     private long solveB(Path path, Direction direction) throws IOException {
         Arrow arrow = findStart(processStrings(Files.readAllLines(path)), direction);
         arrow.findLoop();
-
-        // go through all the lines and calculate point in polygon algorithm extended
-        return CollectionUtils.intersection(verticalInsides, horizontalInsides).size();
+        return arrow.countInteriorPoints();
     }
 
     private Arrow findStart(char[][] input, Direction direction) {
@@ -78,13 +73,15 @@ public class Day10 {
         char current = 'S';
         long steps = 0;
         char[][] chars;
-        Set<Arrow> loop = new HashSet<>();
+        List<Arrow> loop = new ArrayList<>();
+
         public Arrow(int x, int y, Direction direction, char[][] chars) {
             this.x = x;
             this.y = y;
             this.direction = direction;
             this.chars = chars;
         }
+
         public Arrow(int x, int y) {
             this.x = x;
             this.y = y;
@@ -123,19 +120,19 @@ public class Day10 {
             switch (current) {
                 case '-' -> {
                     if (List.of(Direction.N, Direction.S).contains(direction)) {
-                        throw new RuntimeException("Bad way");
+                        throw new PipeException();
                     }
                 }
                 case '|' -> {
                     if (List.of(Direction.E, Direction.W).contains(direction)) {
-                        throw new RuntimeException("Bad way");
+                        throw new PipeException();
                     }
                 }
                 case 'L' -> {
                     switch (direction) {
                         case S -> direction = Direction.E;
                         case W -> direction = Direction.N;
-                        default -> throw new RuntimeException("Bad way L, x=" + x + ", y=" + y);
+                        default -> throw new PipeException();
                     }
 
                 }
@@ -160,9 +157,8 @@ public class Day10 {
                         default -> throw new PipeException();
                     }
                 }
-                case '.' -> throw new PipeException();
-                case 'S' -> System.out.println("purrfect");
-                default -> System.out.println("Wrong sign");
+                case 'S' -> System.out.println("done");
+                default -> throw new PipeException();
             }
         }
 
@@ -174,8 +170,33 @@ public class Day10 {
             } while (chars[x][y] != 'S');
         }
 
-        private boolean isPartOfLoop(int x, int y) {
-            return this.loop.stream().anyMatch(arrow -> arrow.x == x && arrow.y == y);
+        private boolean isPartOfTheLoop(int x, int y) {
+            return loop.stream().anyMatch(arrow -> arrow.x == x && arrow.y == y);
+        }
+
+        private boolean isInteriorPoint(int x, int y) {
+            boolean result = false;
+            int i;
+            int j;
+            for (i = 0, j = loop.size() - 1; i < loop.size(); j = i++) {
+                if ((loop.get(i).y > y) != (loop.get(j).y > y) && (x < (loop.get(j).x - loop.get(i).x) * (y - loop.get(i).y) / (loop.get(j).y - loop.get(i).y)
+                                                                       + loop.get(i).x)) {
+                    result = !result;
+                }
+            }
+            return result;
+        }
+
+        private long countInteriorPoints() {
+            long interiorPoints = 0L;
+            for (int i = 0; i < chars.length; i++) {
+                for (int j = 0; j < chars[0].length; j++) {
+                    if (!isPartOfTheLoop(i, j) && isInteriorPoint(i, j)) {
+                        interiorPoints += 1;
+                    }
+                }
+            }
+            return interiorPoints;
         }
 
         class PipeException extends RuntimeException {
